@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load product_tags %}
+{% load static %}
+
+{% block content %}
+<main>
+        <!-- breadcrumb__area-start -->
+<!--        <section class="breadcrumb__area box-plr-75">-->
+<!--            <div class="container">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-xxl-12">-->
+<!--&lt;!&ndash;                        <div class="breadcrumb__wrapper">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <nav aria-label="breadcrumb">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <ol class="breadcrumb">&ndash;&gt;-->
+<!--&lt;!&ndash;                                  <li class="breadcrumb-item"><a href="{% url 'main' %}">Home</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                  <li class="breadcrumb-item active" aria-current="page">Shop</li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                </ol>&ndash;&gt;-->
+<!--&lt;!&ndash;                              </nav>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!-- breadcrumb__area-end -->
+
+        <!-- product-details-start -->
+        <div class="product-details">
+            <div class="container p-5">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="product__details-nav d-sm-flex align-items-start">
+                            <ul class="nav nav-tabs flex-sm-column justify-content-between" id="productThumbTab" role="tablist">
+                                {% for i in product.product_image_set.all %}
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="thumb{{i.id}}-tab" data-bs-toggle="tab" data-bs-target="#thumb{{i.id}}" type="button" role="tab" aria-controls="thumb{{i.id}}" aria-selected="true">
+                                      <img src="{{i.image_url}}" alt="" style="height:85px;width:85px">
+                                  </button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="product__details-thumb">
+                                <div class="tab-content" id="productThumbContent">
+                                    <div class="tab-pane fade show active" id="thumb" role="tabpanel" aria-labelledby="thumb-tab">
+                                         <div class="product__details-nav-thumb w-img">
+                                             <img src="{{product.product_image_set.first.image_url}}" alt="">
+                                         </div>
+                                    </div>
+                                    {% for i in product.product_image_set.all %}
+                                    <div class="tab-pane fade show" id="thumb{{i.id}}" role="tabpanel" aria-labelledby="thumb{{i.id}}-tab">
+                                        <div class="product__details-nav-thumb w-img">
+                                            <img src="{{i.image_url}}" alt="">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="product__details-content">
+                            <h6>{{product.product_name}}</h6>
+                            <div class="pd-rating mb-10">
+                                
+                            </div>
+                            <div class="price mb-10">
+                                <span>₹ {% cal_sell_price product.price product.discount %}</span>&nbsp;&nbsp;<del>{{product.price}}</del>
+                            </div>
+                            <div class="features-des mb-20 mt-10">
+                                <ul>
+                                    <li><a href="product-details.html">{{product.product_info|safe}}</a></li>
+                                </ul>
+                            </div>
+                            <div class="product-stock mb-20">
+                                <h5>Availability: <span> {{product.Availability}} in stock</span></h5>
+                            </div>
+                            <div class="cart-option mb-15">
+                                <div class="product-quantity mr-20">
+                                    <div class="cart-plus-minus p-relative"><input type="text" value="1"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
+                                </div>
+                                <a href="{% url 'cart_add' product.id %}" class="cart-btn">Add to Cart</a>
+                            </div>
+                            <div class="details-meta">
+                                <div class="d-meta-left">
+                                    <div class="dm-item mr-20">
+                                        <a href="#"><i class="fal fa-heart"></i>Add to wishlist</a>
+                                    </div>
+                                    <div class="dm-item">
+                                        <a href="#"><i class="fal fa-layer-group"></i>Compare</a>
+                                    </div>
+                                </div>
+                                <div class="d-meta-left">
+                                    <div class="dm-item">
+                                        <a href="#"><i class="fal fa-share-alt"></i>Share</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-tag-area mt-15">
+                                <div class="product_info">
+                                    <span class="sku_wrapper">
+                                        <span class="title">Model Name:</span>
+                                        <span class="sku">{{product.model_name}}</span>
+                                    </span>
+                                    <span class="posted_in">
+                                        <span class="title">Categories:</span>
+                                        <a href="#">{{product.categories}}</a>
+                                    </span>
+                                    <span class="tagged_as">
+                                        <span class="title">Tags:</span>
+                                        <a href="#">{{product.tags}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- product-details-end -->
+
+        <!-- product-details-des-start -->
+        <div class="product-details-des mt-40 mb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="product__details-des-tab">
+                            <ul class="nav nav-tabs" id="productDesTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link active" id="des-tab" data-bs-toggle="tab" data-bs-target="#des" type="button" role="tab" aria-controls="des" aria-selected="true">Description </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="aditional-tab" data-bs-toggle="tab" data-bs-target="#aditional" type="button" role="tab" aria-controls="aditional" aria-selected="false">Additional information</button>
+                                  </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Reviews () </button>
+                                </li>
+                              </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="prodductDesTaContent">
+                    <div class="tab-pane fade active show" id="des" role="tabpanel" aria-labelledby="des-tab">
+                        <div class="product__details-des-wrapper">
+                            {{product.description|safe}}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="aditional" role="tabpanel" aria-labelledby="aditional-tab">
+                        <div class="product__desc-info">
+                            <ul>
+                                {% for i in product.additional_information_set.all %}
+                               <li>
+                                  <h6>{{i.specification}}</h6>
+                                  <span>{{i.detail}}</span>
+                               </li>
+                                {% endfor %}
+                            </ul>
+                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                        <div class="product__details-review">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="review-rate">
+                                        
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="product__details-comment ">
+                                        <div class="comment-title mb-20">
+                                           <h3>Add a review</h3>
+                                           <p>Your email address will not be published. Required fields are marked *</p>
+                                        </div>
+                                        <div class="comment-rating mb-20">
+                                        </div>
+                                        <div class="comment-input-box">
+                                            <form action="" method="POST">
+                                                <div class="mb-3">
+                                                    <fieldset class="starability-basic">
+                                                        <legend>rating:</legend>
+                                                        {% comment %} <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." /> {% endcomment %}
+                                                        <input type="radio" id="first-rate1" name="rating" value="1" />
+                                                        <label for="first-rate1" title="Terrible">1 star</label>
+                                                        <input type="radio" id="first-rate2" name="rating" value="2" />
+                                                        <label for="first-rate2" title="Not good">2 stars</label>
+                                                        <input type="radio" id="first-rate3" name="rating" value="3" />
+                                                        <label for="first-rate3" title="Average">3 stars</label>
+                                                        <input type="radio" id="first-rate4" name="rating" value="4" />
+                                                        <label for="first-rate4" title="Very good">4 stars</label>
+                                                        <input type="radio" id="first-rate5" name="rating" value="5" />
+                                                        <label for="first-rate5" title="Amazing">5 stars</label>
+                                                      </fieldset>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="comment">Comment: </label>
+                                                    <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                                                </div>
+                                                <button class="btn btn-sm btn-success">Submit</button>
+                                            </form>
+                                
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- product-details-des-end -->
+
+
+{% endblock %}

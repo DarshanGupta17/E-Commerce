@@ -1,0 +1,267 @@
+{% load static %}
+<!-- header-start -->
+    <header class="header d-blue-bg">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-inner">
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-lg-7">
+                            <div class="header-inner-start">
+                                <div class="header__lang border-right">
+                                    <div class="s-name p-3">
+                                        <h4>SmartAdShop</h4>
+                                    </div>
+                                </div>
+                                <div class="support d-none d-sm-block">
+                                    {% if user.is_authenticated %}
+                                    <p>
+                                        {% if user.first_name == " " %}
+                                            {{user.email}}
+                                        {% else %}
+                                            {{user.username}}
+                                        {% endif %}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-5 d-none d-lg-block">
+                            <div class="header-inner-end text-md-end">
+                                <div class="ovic-menu-wrapper">
+                                    <ul>
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="contact.html">Order Tracking</a></li>
+                                        <li><a href="contact.html">Contact Us</a></li>
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-mid">
+            <div class="container">
+                <div class="heade-mid-inner">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
+                            <div class="header__info">
+                                <div class="logo">
+                                    <a href="index.html" class="logo-image"><img src="{% static 'assets/img/logo/logo.png' %}" alt="logo"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-4 d-none d-lg-block">
+                            <div class="header__search">
+                                <form action="#">
+                                    <div class="header__search-box">
+                                        <input class="search-input" type="text" placeholder="I'm shopping for...">
+                                        <button class="button" type="submit"><i class="far fa-search"></i></button>
+                                    </div>
+                                    <div class="header__search-cat">
+                                        <select>
+                                            <option>All Categories</option>
+                                            <option>Best Seller Products</option>
+                                            <option>Top 10 Offers</option>
+                                            <option>New Arrivals</option>
+                                            <option>Phones &amp; Tablets</option>
+                                            <option>Electronics &amp; Digital</option>
+                                            <option>Fashion &amp; Clothings</option>
+                                            <option>Jewelry &amp; Watches</option>
+                                            <option>Health &amp; Beauty</option>
+                                            <option>Sound &amp; Speakers</option>
+                                            <option>TV &amp; Audio</option>
+                                            <option>Computers</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-5 col-md-8 col-sm-8">
+                            <div class="header-action">
+                                <div class="breadcrumb-two">
+                                    <nav>
+                                       <nav class="breadcrumb-trail breadcrumbs">
+                                          <ul class="breadcrumb-menu">
+                                              {% if user.is_authenticated %}
+                                              <li class="breadcrumb-trail">
+                                                  <a class="icon-link" href="{% url 'profile' %}">
+                                                      <i class="flaticon-user"></i>
+                                                      <span>My Profile</span>
+                                                  </a>
+                                              </li>
+                                              {% else %}
+                                             <li class="breadcrumb-trail">
+
+                                                <a class="icon-link" href="{% url 'login' %}">
+                                                    <span>Login </span>
+                                                </a>
+                                             </li>
+                                             <li class="trail-item">
+                                                <a class="icon-link" href="{% url 'signup' %}">
+                                                    <span>SignUp </span>
+                                                </a>
+                                             </li>
+                                              {% endif %}
+                                          </ul>
+                                       </nav>
+                                    </nav>
+                                </div>
+                                <div class="block-wishlist action">
+                                    <a class="icon-link" href="wishlist.html">
+                                    <i class="flaticon-heart"></i>
+                                    <span class="count">0</span>
+                                    <span class="text">
+                                    <span class="sub">Favorite</span>
+                                    My Wishlist </span>
+                                    </a>
+                                </div>
+                                <div class="block-cart action">
+                                    <a class="icon-link" href="{% url 'cart_detail' %}">
+                                    <i class="flaticon-shopping-bag"></i>
+                                    <span class="count"> {{request.session.cart|length}}</span>
+                                    <span class="text">
+                                    <span class="sub">Your Cart:</span>
+                                    ₹ {{cart_total_amount}} </span>
+                                    </a>
+                                    <div class="cart">
+                                        <div class="cart__mini">
+                                            <ul>
+                                                <li>
+                                                  <div class="cart__title">
+                                                    <h4>Your Cart</h4>
+                                                    <span>( {{request.session.cart|length}} Item in Cart)</span>
+                                                  </div>
+                                                </li>
+                                                {% for key,value in request.session.cart.items %}
+                                                <li>
+                                                  <div class="cart__item d-flex justify-content-between align-items-center">
+                                                    <div class="cart__inner d-flex">
+                                                      <div class="cart__thumb">
+                                                        <a href="product-details.html">
+                                                          <img src="{{value.featured_img}}" alt="">
+                                                        </a>
+                                                      </div>
+                                                      <div class="cart__details">
+                                                        <h6><a href="product-details.html">{{value.product_name|truncatewords:5}}</a></h6>
+                                                        <div class="cart__price">
+                                                          <span>₹ {{value.price}}</span>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div class="cart__del">
+                                                        <a href="{% url 'item_clear' key %}"><i class="fal fa-times"></i></a>
+                                                    </div>
+                                                  </div>
+                                                </li>
+                                                {% endfor %}
+                                                <li>
+                                                  <div class="cart__sub d-flex justify-content-between align-items-center">
+                                                    <h6>Subtotal</h6>
+                                                    <span class="cart__sub-total">₹ {{cart_total_amount}}</span>
+                                                  </div>
+                                                </li>
+                                                <li>
+                                                    <a href="{% url 'cart_detail' %}" class="wc-cart mb-10">View cart</a>
+                                                    {% if request.session.cart|length > 0 %}
+                                                    <a href="{% url 'checkout' %}" class="wc-checkout">Checkout</a>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header__bottom">
+            <div class="container">
+                <div class="row g-0 align-items-center">
+                    <div class="col-lg-3">
+                        <div class="cat__menu-wrapper side-border d-none d-lg-block">
+                            <div class="cat-toggle">
+                                <button type="button" class="cat-toggle-btn cat-toggle-btn-1"><i class="fal fa-bars"></i> Shop by department</button>
+                                <div class="cat__menu">
+                                    <nav id="mobile-menu" style="display: block;">
+                                        <ul>
+                                            {% for i in main_category %}
+                                            <li>
+
+                                                <a href="shop.html">{{i.name}}<i class="far fa-angle-down"></i></a>
+                                                <ul class="mega-menu">
+                                                    {% for cat in i.category_set.all %}
+                                                    <li><a href="shop.html">{{cat.name}}</a>
+                                                        <ul class="mega-item">
+                                                            {% for sub in cat.sub_category_set.all %}
+                                                            <li><a href="product-details.html">{{sub.name}}</a></li>
+                                                            {% endfor %}
+
+                                                        </ul>
+                                                    </li>
+                                                    {% endfor %}
+
+                                                </ul>
+
+                                            </li>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-3">
+                      <div class="header__bottom-left d-flex d-xl-block align-items-center">
+                        <div class="side-menu d-lg-none mr-20">
+                          <button type="button" class="side-menu-btn offcanvas-toggle-btn"><i class="fas fa-bars"></i></button>
+                        </div>
+                        <div class="main-menu d-none d-lg-block">
+                            <nav>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'main' %}" class="active">Home</a>
+                                    </li>
+                                    <li><a href="{% url 'About' %}">About Us</a></li>
+                                    <li><a href="{% url 'Contact' %}">Contact Us</a></li>
+                                    <li><a href="{% url 'Product' %}">Products</a></li>
+<!--                                    <li><a href="blog.html">My Orders <i class="far fa-angle-down"></i></a>-->
+<!--                                        <ul class="submenu">-->
+<!--                                            <li><a href="blog.html">Orders</a></li>-->
+<!--                                            <li><a href="blog-details.html">Order Tracker</a></li>-->
+<!--                                        </ul>-->
+<!--                                    </li>-->
+<!--                                    <li>-->
+<!--                                        <a href="about.html">Pages <i class="far fa-angle-down"></i></a>-->
+<!--                                        <ul class="submenu">-->
+<!--                                            <li><a href="my-account.html">My Account</a></li>-->
+<!--                                            <li><a href="product-details.html">Product Details</a></li>-->
+<!--                                            <li><a href="faq.html">FAQs pages</a></li>-->
+<!--                                            <li><a href="{% url 'cart_detail' %}">Cart</a></li>-->
+<!--                                            <li><a href="wishlist.html">Wishlist</a></li>-->
+<!--                                            <li><a href="checkout.html">Checkout</a></li>-->
+<!--                                            <li><a href="contact.html">Contact Us</a></li>-->
+<!--                                            <li><a href="404.html">404 Error</a></li>-->
+<!--                                        </ul>-->
+<!--                                    </li>-->
+                                </ul>
+                            </nav>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-9">
+                        <div class="shopeing-text text-sm-end">
+                            <p>Spend ₹300 more and get free shipping!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
