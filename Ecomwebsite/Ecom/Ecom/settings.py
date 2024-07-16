@@ -191,5 +191,3 @@ LOGOUT_REDIRECT_URL = 'main'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'guptadarshan786@gmail.com'
-EMAIL_HOST_PASSWORD = 'tkjfkesplctjjcnf'
